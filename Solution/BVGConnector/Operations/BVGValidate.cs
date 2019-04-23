@@ -69,7 +69,21 @@ namespace BVGConnector.Operations
 
         protected bool ValidateCurrenyCode(Dictionary<string, object> array, string key, string value)
         {
-            if (!((string)(array[key])).Equals(value, StringComparison.InvariantCultureIgnoreCase))
+            System.Diagnostics.Debug.WriteLine("TTTTTTTT");
+
+            int int_value_arr = Int32.Parse(array[key].ToString());
+            System.Diagnostics.Debug.WriteLine(int_value_arr);
+
+            int int_value = Int32.Parse(value);
+            System.Diagnostics.Debug.WriteLine(int_value);
+
+            string outputarr = Newtonsoft.Json.JsonConvert.SerializeObject(array);
+            System.Diagnostics.Debug.WriteLine(outputarr);
+            System.Diagnostics.Debug.WriteLine("WWWWWWW");
+
+
+            // if (!((String.Format("{0:000}", array[key]))).Equals(String.Format("{0:000}", value), StringComparison.InvariantCultureIgnoreCase))
+            if(int_value_arr != int_value )
             {
                 throw new InvalidFieldException(key + " is not valid");
             }

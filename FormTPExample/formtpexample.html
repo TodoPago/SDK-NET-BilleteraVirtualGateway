@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>Formulario Híbrido TP</title>
+        <meta charset="UTF-8">
+        <script src="https://forms.integration.todopago.com.ar/resources/TPBSAForm.js"></script>
+        <!--script src="https://forms.todopago.com.ar/resources/TPBSAForm.min.js"></script-->
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <script type="text/javascript">
+        </script>
+    </head>
+    <body class="contentContainer">
+    </body>
+        <script>
+            path = window.location.pathname;
+            
+            /*
+            $.getJSON("json.php", function(result){
+                $.each(result, function(i, field){
+                    encrypteddata = result.VOLATILE_ENCRYPTED_DATA
+                    hashString= encrypteddata.replace(/\+/g, "%2B");
+                    result.VOLATILE_ENCRYPTED_DATA = hashString;
+                    jsonresponse = JSON.stringify(result);
+          
+                    url = path+"?ord=<?php //print($operationid); ?>&success=1&formresponse="+jsonresponse;
+
+                    window.location.href = url;
+                });
+            });
+            */
+            
+            var success = function(data) {
+                console.log(data);
+
+                encrypteddata = data.VOLATILE_ENCRYPTED_DATA
+                hashString= encrypteddata.replace(/\+/g, "%2B");
+                data.VOLATILE_ENCRYPTED_DATA = hashString;
+                jsonresponse = JSON.stringify(data);
+      
+                url = path+"?ord=1231232&success=1&formresponse="+jsonresponse;
+
+                window.location.href = url;
+            };
+            
+            var error = function(data) {
+                console.log(data);
+                jsonresponse = JSON.stringify(data);
+                url = path+"?ord=1231232&error=1&formresponse="+jsonresponse;   
+                window.location.href = url;
+            };
+        
+            var validation = function(data) {
+                console.log(data);
+            }
+
+            window.TPFORMAPI.hybridForm.initBSA({
+                publicKey: "requestpublickey",
+                merchantAccountId: "merchant",
+                callbackCustomSuccessFunction: "success",
+                callbackCustomErrorFunction: "error",
+                callbackValidationErrorFunction: "validation"
+            });
+            
+        </script>
+	</body>
+</html>
+
+

@@ -9,7 +9,7 @@
         public const string BVG_SECURITY = "security";
         public const string BVG_OPERATION_DATE_TIME = "operationDatetime";
         public const string BVG_REMOTE_IP_ADDRESS = "remoteIpAddress";
-        //public const string BVG_CHANNEL = "channel";
+        public const string BVG_CHANNEL = "channel";
 
         public const string BVG_OPERATION_DATA = "operationData";
         public const string BVG_OPERATION_TYPE = "operationType";

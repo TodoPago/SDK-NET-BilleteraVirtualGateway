@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using BVGConnector.Utils;
@@ -12,9 +13,9 @@ namespace BVGConnector.Connectors
 {
     public class BVG : RestConnector
     {
-        private const string BVTP_TRANSACTION = "tx/v1/bsa";
+        private const string BVTP_TRANSACTION = "transactions/api/BSA/transaction/";
         private const string BVTP_PAYMENTMETHOD_DISCOVER = "discover/api/BSA/paymentMethod/discover";
-        private const string BVTP_NOTIFICATION_PUSH = "tx/v1/bsa";
+        private const string BVTP_NOTIFICATION_PUSH = "transactions/api/BSA/transaction/notificacionPush";
         private const string CREDENTIALS = "Credentials";
 
         public BVG(string endpoint, Dictionary<string, string> headders)
@@ -45,11 +46,11 @@ namespace BVGConnector.Connectors
         public NotificationPushBVG NotificationPush(NotificationPushBVG notificationPush)
         {
             string publicRequestKey = (string)(notificationPush.GetGeneralData()[ElementNames.BVG_PUBLIC_REQUEST_KEY]);
-            string URL = endpoint + BVTP_NOTIFICATION_PUSH + "/" + publicRequestKey;
+            string URL = endpoint + BVTP_NOTIFICATION_PUSH;
 
             string json = OperationsParserBVG.GenerateNotificationPushJson(notificationPush);
 
-            string result = ExecuteRequest(json, URL, METHOD_PUT, true);
+            string result = ExecuteRequest(json, URL, METHOD_POST, true);
 
             return OperationsParserBVG.ParseJsonToNotificationPushBVG(result);
         }
@@ -59,7 +60,8 @@ namespace BVGConnector.Connectors
             string result = String.Empty;
 
             var httpWebRequest = GenerateHttpWebRequest(url, CONTENT_TYPE_APP_JSON, method, withApiKey);
-
+            Debug.WriteLine(url);
+            Debug.WriteLine(param);
             try
             {
                 if (method == METHOD_POST || method == METHOD_PUT)

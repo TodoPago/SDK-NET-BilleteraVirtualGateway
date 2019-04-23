@@ -9,19 +9,19 @@ namespace BVGConnector
 {
     public class BvgConnector
     {
-        public const string versionTodoPago = "1.1.0";
+        public const string versionTodoPago = "1.2.0";
 
         #region Constants
         public const int developerEndpoint = 0;
         public const int productionEndpoint = 1;
 
-        private const string endPointDev = "https://developers.todopago.com.ar/";
+        private const string endPointDev = "https://portal.integration.todopago.com.ar/";
         private const string endPointPrd = "https://apis.todopago.com.ar/";
 
         private const string tenant = "t/1.1";
 
         private const string BVGTenant = "ms/";
-        private const string BVGDesaTenant = "bsa/";
+        private const string BVGDesaTenant = "ms/";
 
         private const string restAppend = "/api/";
 
