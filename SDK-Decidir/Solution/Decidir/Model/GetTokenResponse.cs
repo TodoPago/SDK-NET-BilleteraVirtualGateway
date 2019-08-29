@@ -1,5 +1,4 @@
-﻿//using Decidir.Model;
-namespace Decidir.Model
+﻿namespace Decidir.Model
 {
     public class GetTokenResponse
     {
@@ -14,6 +13,5 @@ namespace Decidir.Model
         public int expiration_year { get; set; }
         public string date_due { get; set; }
         public CardHolder cardholder { get; set; }
-    
     }
 }

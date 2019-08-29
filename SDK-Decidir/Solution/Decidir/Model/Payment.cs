@@ -11,12 +11,6 @@ namespace Decidir.Model
         public string site_transaction_id { get; set; }
         public string token { get; set; }
         public CustomerData customer { get; set; }
-        //****   campos para BVG **************************/
-        public string payment_mode { get; set;}
-        public DatosSite datos_site { get; set; }
-        public CardTokenBsa card_token_bsa { get; set; }
-        public string user_id { get; set; }
-        //*************************************************/
         public int payment_method_id { get; set; }
         public string bin { get; set; }
         public double amount { get; set; }
@@ -29,6 +23,7 @@ namespace Decidir.Model
         public FraudDetection fraud_detection { get; set; }
         public string site_id { get; set; }
         public AggregateDataPayment aggregate_data { get; set; }
+        public CardTokenBsa card_token_bsa { get; set; }
 
         public Payment()
         {

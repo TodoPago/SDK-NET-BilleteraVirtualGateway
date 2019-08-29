@@ -28,8 +28,8 @@ namespace WebApplication2
             {
                 case "new":
                     Debug.WriteLine("*** asigno nuevo ID");
-                    id_operation = "sdk_net_" + new Random().Next();
-                    testData.id_operation = id_operation;
+                    //id_operation = "sdk_net_" + new Random().Next();
+                    //testData.id_operation = id_operation;
                     testData.config_data = initConfigData();
 
                     break;
@@ -45,10 +45,13 @@ namespace WebApplication2
                     
                     break;
                 case "save":
-                    Debug.WriteLine("*** estoy en SAVE : " + Request["id_operation"]); 
-                    testData = TestDataController.getTestDataById(Request["id_operation"]);
-                    testData.id_operation = Request["id_operation"];
-                    id_operation = testData.id_operation;
+                    Debug.WriteLine("*** estoy en SAVE : " + Request["id_operation"]);
+                    //testData = TestDataController.getTestDataById(Request["id_operation"]);
+                    //testData.id_operation = Request["id_operation"];
+                    //id_operation = testData.id_operation;
+                    //id_operation = Request["id_operation"];
+                    id_operation = this.get_field("operacion");
+                    testData.id_operation = id_operation;
                     fill_config_data_form();
                     testData.config_data = this.configData; 
 
@@ -100,6 +103,8 @@ namespace WebApplication2
             this.configData["buyerpreselectionbank"] = this.get_field("buyerpreselectionbank");
             this.configData["availablepaymentmethods"] = this.get_field("availablepaymentmethods");
             this.configData["availablebanks"] = this.get_field("availablebanks");
+            this.configData["cuotas"] = this.get_field("cuotas");
+            
 
             Globals.configData = this.configData;
         }

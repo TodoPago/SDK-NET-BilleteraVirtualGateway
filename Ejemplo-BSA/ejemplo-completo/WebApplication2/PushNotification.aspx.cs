@@ -58,7 +58,7 @@ namespace WebApplication2
             operationData.Add(ElementNames.BVG_OPERATION_ID, (string)testData.config_data["operacion"]);
             operationData.Add(ElementNames.BVG_CONCEPT, (string)testData.config_data["concept"]);
             operationData.Add(ElementNames.BVG_AMOUNT, (string)testData.config_data["amount"]);
-            operationData.Add(ElementNames.BVG_FACILITIES_PAYMENT, "03");
+            operationData.Add(ElementNames.BVG_FACILITIES_PAYMENT, Convert.ToInt32(testData.config_data["cuotas"]).ToString("00"));
 
             Dictionary<string, Object> tokenizationData = new Dictionary<string, Object>();
             tokenizationData.Add(ElementNames.BVG_PUBLIC_TOKENIZATION_FIELD, Globals.token_decidir);

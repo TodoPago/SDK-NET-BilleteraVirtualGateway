@@ -35,7 +35,7 @@
 							  	</tr>
 								<tr>
 								  <td><b>Operacion </b></td><td>
-                                      <input type="text" name="operacion" value="<%=configData["operacion"] %>"  disabled ></td>
+                                      <input type="text" name="operacion" value="<%=configData["operacion"] %>" required ></td>
 								</tr>
 								<tr>
 								  <td><b>Currency</b></td><td><input type="text" name="currencydec" value="<%=configData["currencydec"] %>" required></td>

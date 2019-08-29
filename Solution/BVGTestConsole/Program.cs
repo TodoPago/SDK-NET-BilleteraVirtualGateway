@@ -96,8 +96,8 @@ namespace BVGTestConsole
                 operationData.Add(ElementNames.BVG_OPERATION_TYPE, "Compra");
                 operationData.Add(ElementNames.BVG_OPERATION_ID, "12345");
                 operationData.Add(ElementNames.BVG_CURRENCY_CODE, "032");
-                operationData.Add(ElementNames.BVG_CONCEPT, "compra");
-                operationData.Add(ElementNames.BVG_AMOUNT, "10,99");
+                operationData.Add(ElementNames.BVG_CONCEPT, "Compra");
+                operationData.Add(ElementNames.BVG_AMOUNT, "10,00");
 
                 List<string> availablePaymentMethods = new List<string>();
                 availablePaymentMethods.Add("1");

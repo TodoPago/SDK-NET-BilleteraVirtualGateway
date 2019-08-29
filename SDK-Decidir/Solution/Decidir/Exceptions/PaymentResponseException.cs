@@ -6,7 +6,7 @@ namespace Decidir.Exceptions
     public class PaymentResponseException : ResponseException
     {
         protected PaymentResponse paymentResponse;
-     
+        
         public PaymentResponseException(String message) : base(message)
         {
         }

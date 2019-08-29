@@ -15,6 +15,8 @@ namespace WebApplication2
         public string responseTokenizer = "";
         public string responsePayment = "";
         public string responseError = "";
+        public static Dictionary<string, string> tpToDecidirMapper = initDecidirMapper();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             GetTokenResponse resultGetTokenResponse = null;
@@ -28,7 +30,7 @@ namespace WebApplication2
             
             CardHolderIdentification card_holder_identification = new CardHolderIdentification();
             card_holder_identification.type = "DNI";
-            card_holder_identification.number = "23968498";
+            card_holder_identification.number = "33222444";
 
             FraudDetectionBSA fraud_detection = new FraudDetectionBSA();
             fraud_detection.device_unique_identifier = "12345";
@@ -37,16 +39,11 @@ namespace WebApplication2
             //OBS: Al no poder acceder al formulario de TP si no vienen cargados los datos necesarios se completan con otros valores de prueba 
             CardTokenBsa card_token_bsa = new CardTokenBsa();
             card_token_bsa.public_token = (!String.IsNullOrEmpty(Globals.token_todopago) )? Globals.token_todopago : "96291105";
-            card_token_bsa.volatile_encrypted_data = (!String.IsNullOrEmpty(Globals.volatile_encrypted_data)) ? Globals.volatile_encrypted_data : "YRfrWggICAggsF0nR6ViuAgWsPr5ouR5knIbPtkN+yntd7G6FzN/Xb8zt6+QHnoxmpTraKphZVHvxA==";
-            card_token_bsa.public_request_key = (!String.IsNullOrEmpty(Globals.publicRequestKey)) ? Globals.publicRequestKey : "5516e585-c0b6-447c-bbb0-8ee1fa75d8ca";
             card_token_bsa.issue_date = (!String.IsNullOrEmpty(Globals.token_date)) ? Globals.token_date:"20190108";
-            card_token_bsa.flag_security_code = "1";
-            card_token_bsa.flag_tokenization = "0";
-            card_token_bsa.flag_selector_key = "1";
-            card_token_bsa.flag_pei = "0";
             card_token_bsa.card_holder_name = "Comprador";
             card_token_bsa.card_holder_identification = card_holder_identification;
             card_token_bsa.fraud_detection = fraud_detection;
+            card_token_bsa.merchant_id = testData.config_data["merchant"];
 
             //Para el ambiente de desarrollo
             int environment = Ambiente.AMBIENTE_SANDBOX;
@@ -84,20 +81,23 @@ namespace WebApplication2
 
 
             /********** PAYMENT DECIDIR **********/
-           // DecidirConnector decidirConnector = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, (string)Globals.configData["key_private"], (string)Globals.configData["key_public"]);
-            
+            // DecidirConnector decidirConnector = new DecidirConnector(Ambiente.AMBIENTE_SANDBOX, (string)Globals.configData["key_private"], (string)Globals.configData["key_public"]);
+
+            //Mapeo id medio de pago de TP a Decidir
+            String todoPago_PaymentMethodId = (!String.IsNullOrEmpty(Globals.payment_method_id)) ? Globals.payment_method_id : "1"; //Visa por defecto
+            String decidir_PaymentMethodId = tpToDecidirMapper[todoPago_PaymentMethodId];
+
             Payment payment = new Payment();
             PaymentResponse resultPaymentResponse = new PaymentResponse();
 
             payment.site_transaction_id = (string) testData.config_data["operacion"];
             payment.token = resultGetTokenResponse.id;
-            payment.payment_mode = "bsa";
-            payment.payment_method_id = 1;
-            payment.installments = 1;
+            payment.payment_type = "bsa";
+            payment.payment_method_id = Convert.ToInt32(decidir_PaymentMethodId);
+            payment.installments = Convert.ToInt32((string)testData.config_data["cuotas"]);
             payment.currency = (string) testData.config_data["currencydec"];
             payment.amount = Convert.ToDouble(((string)testData.config_data["amount"]).Replace(',','.'));
             payment.payment_type = "single";
-            payment.user_id = "morton";
             payment.sub_payments = new List<object>();
 
 
@@ -133,6 +133,15 @@ namespace WebApplication2
             }
            
 
+        }
+
+        private static Dictionary<string, string> initDecidirMapper()
+        {
+            Dictionary<string, string> initData = new Dictionary<string, string>();
+            initData.Add("1", "65"); //AMEX
+            initData.Add("42", "1"); //Visa Credito
+            initData.Add("43", "31"); //Visa Debito
+            return initData;
         }
     }
 }

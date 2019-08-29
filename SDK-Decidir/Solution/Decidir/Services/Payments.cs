@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Diagnostics;
 
 namespace Decidir.Services
 {
@@ -19,13 +18,14 @@ namespace Decidir.Services
         private RestClient restClientValidate;
         private RestClient restClientGetTokenBSA;
 
-        public Payments(String endpoint, String privateApiKey, String validateApiKey=null , String merchant=null, string request_host = null, string publicApiKey=null) : base(endpoint)
+        public Payments(String endpoint, String privateApiKey, String validateApiKey=null , String merchant=null, string request_host = null, string publicApiKey = null) : base(endpoint)
         {
             this.privateApiKey = privateApiKey;
             this.validateApiKey = validateApiKey;
             this.merchant = merchant;
             this.request_host = request_host;
             this.publicApiKey = publicApiKey;
+
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add("apikey", this.privateApiKey);
             headers.Add("Cache-Control", "no-cache");
@@ -45,39 +45,6 @@ namespace Decidir.Services
             Payment paymentCopy = payment.copy();
 
             return DoPayment(paymentCopy);
-        }
-
-        public GetTokenResponse GetToken(CardTokenBsa card_token)
-        {
-           return DoGetToken(card_token);
-        }
-
-        private GetTokenResponse DoGetToken(CardTokenBsa card_token)
-        {
-            GetTokenResponse response = null;
-
-            Dictionary<string, string> headers = new Dictionary<string, string>();
-            headers.Add("apikey", this.publicApiKey);
-            
-            this.restClientGetTokenBSA = new RestClient(this.endpoint, headers, CONTENT_TYPE_APP_JSON);
-            string cardTokenJson = CardTokenBsa.toJson(card_token);
-            RestResponse result = this.restClientGetTokenBSA.Post("tokens", cardTokenJson);
-
-            if (!String.IsNullOrEmpty(result.Response))
-            {
-                response = JsonConvert.DeserializeObject<GetTokenResponse>(result.Response);
-            }
-
-            if (result.StatusCode != STATUS_CREATED)
-            {
-                if (isErrorResponse(result.StatusCode))
-                    throw new GetTokenResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
-                else
-                    throw new GetTokenResponseException(result.StatusCode + " - " + result.Response, response);
-            }
-            
-            return response;
-
         }
 
         public CapturePaymentResponse CapturePayment(long paymentId, double amount)
@@ -253,8 +220,6 @@ namespace Decidir.Services
             return response;
         }
 
-        
-
         private string GetAllPaymentsQuery(long? offset, long? pageSize, string siteOperationId, string merchantId)
         {
             StringBuilder result = new StringBuilder();
@@ -329,6 +294,37 @@ namespace Decidir.Services
             return DoValidate(validateData);
         }
 
+        public GetTokenResponse GetToken(CardTokenBsa card_token)
+        {
+            return DoGetToken(card_token);
+        }
 
+        private GetTokenResponse DoGetToken(CardTokenBsa card_token)
+        {
+            GetTokenResponse response = null;
+
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("apikey", this.publicApiKey);
+
+            this.restClientGetTokenBSA = new RestClient(this.endpoint, headers, CONTENT_TYPE_APP_JSON);
+            string cardTokenJson = CardTokenBsa.toJson(card_token);
+            RestResponse result = this.restClientGetTokenBSA.Post("tokens", cardTokenJson);
+
+            if (!String.IsNullOrEmpty(result.Response))
+            {
+                response = JsonConvert.DeserializeObject<GetTokenResponse>(result.Response);
+            }
+
+            if (result.StatusCode != STATUS_CREATED)
+            {
+                if (isErrorResponse(result.StatusCode))
+                    throw new GetTokenResponseException(result.StatusCode.ToString(), JsonConvert.DeserializeObject<ErrorResponse>(result.Response));
+                else
+                    throw new GetTokenResponseException(result.StatusCode + " - " + result.Response, response);
+            }
+
+            return response;
+
+        }
     }
 }

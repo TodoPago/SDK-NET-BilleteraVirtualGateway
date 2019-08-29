@@ -58,7 +58,6 @@ namespace BVGConnector.Connectors
         protected virtual string ExecuteRequest(string param, string url, string method, bool withApiKey)
         {
             string result = String.Empty;
-
             var httpWebRequest = GenerateHttpWebRequest(url, CONTENT_TYPE_APP_JSON, method, withApiKey);
             Debug.WriteLine(url);
             Debug.WriteLine(param);
@@ -71,7 +70,6 @@ namespace BVGConnector.Connectors
                         streamWriter.Write(param);
                     }
                 }
-
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {

@@ -24,6 +24,7 @@ namespace WebApplication2.App_Start
         public static string pushNotifState = "PENDIENTE";
         public static string ticket = "";
         public static string status = "";
+        public static string payment_method_id = "1";
 
         public static Dictionary<string, string> configData = initConfigData();
 

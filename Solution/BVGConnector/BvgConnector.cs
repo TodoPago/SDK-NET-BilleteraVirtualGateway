@@ -15,7 +15,7 @@ namespace BVGConnector
         public const int developerEndpoint = 0;
         public const int productionEndpoint = 1;
 
-        private const string endPointDev = "https://portal.integration.todopago.com.ar/";
+        private const string endPointDev = "https://apis.integration.todopago.com.ar/";
         private const string endPointPrd = "https://apis.todopago.com.ar/";
 
         private const string tenant = "t/1.1";

@@ -8,9 +8,6 @@ namespace WebApplication2
 {
     public partial class PagoTP : Page
     {
-        //public string publicRequestKey = Globals.publicRequestKey;
-        //public string merchant_todopago = Globals.configData["merchant"].ToString();
-
         public string publicRequestKey;
         public string merchant_todopago;
 
@@ -27,9 +24,9 @@ namespace WebApplication2
             }
 
             Globals.token_todopago = Request["token_todopago"];
-            Globals.volatile_encrypted_data = Request["volatile_encrypted_data"];
             Globals.token_date = Request["token_date"];
-            if(String.IsNullOrEmpty(Globals.token_todopago))
+            Globals.payment_method_id = Request["payment_method_id"];
+            if (String.IsNullOrEmpty(Globals.token_todopago))
             {
                 Globals.pagoTPState = "RECHAZADO";
                 testData.formTP.status = Globals.pagoTPState;
@@ -44,8 +41,8 @@ namespace WebApplication2
                 Dictionary<string, Object> response_form = new Dictionary<string, Object>
                 {
                     { "token_todopago",  Globals.token_todopago },
-                    { "volatile_encrypted_data", Globals.volatile_encrypted_data },
-                    { "token_date", Globals.token_date }
+                    { "token_date", Globals.token_date },
+                    { "payment_method_id", Globals.payment_method_id }
                 };
                 testData.formTP.response_json = JsonConvert.SerializeObject(response_form, Formatting.Indented);
                 TestDataController.saveData(testData);
